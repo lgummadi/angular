@@ -1,0 +1,92 @@
+<div style="height:500px; width:600px;margin:auto;">
+<mwl-calendar-month-view [viewDate]="viewDate" 
+[refresh]="refresh"
+(dayClicked)="dayClicked($event.day)">
+</mwl-calendar-month-view>
+</div>
+<br/>
+
+   <button class="btn btn-primary float-end" (click)="addEvent()">
+    Add new
+  </button>
+  <div class="clearfix"></div>
+
+<br />
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Requester Name</th>
+        <th>Event Name</th>
+        <th>Starts at</th>
+        <th>Ends at</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let event of events">
+        <ng-container *ngIf="chkevent(event)">
+        <td>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="event.requesterName"
+            (keyup)="refresh.next()"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="event.eventName"
+            (keyup)="refresh.next()"
+          />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="event.start"
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+          />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="event.end"
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+          />
+        </td>
+        
+        <td>
+          {{event.status}}
+        
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="approveEvent(event)">
+            Approve
+          </button>
+        </td>
+      </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
